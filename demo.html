@@ -1,4 +1,4 @@
-<title>DoorWise Live Demo: Building Graph 3D</title>
+<title>Live Demo: Building Graph 3D</title>
 <meta name="description" content="Interactive 3D walkthrough of a real 22-floor tower mapped by DoorWise in one 15-minute phone walk.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23F7F8FB'/%3E%3Crect x='20' y='14' width='24' height='38' rx='3' fill='none' stroke='%233D5FA0' stroke-width='4'/%3E%3Ccircle cx='38' cy='34' r='3.5' fill='%230E9F6E'/%3E%3C/svg%3E">
 <style>
@@ -67,7 +67,7 @@
 <div class="panel" id="panel">
   <div class="panel-head">
     <div>
-      <div class="eyebrow">DoorWise · DoorWise Live Demo</div>
+      <div class="eyebrow">DoorWise · Live Demo</div>
       <h1>Building graph, live</h1>
     </div>
     <button id="collapse" aria-label="Collapse panel">▾</button>
@@ -149,8 +149,7 @@ let W, H, DPR;
 function resize(){ DPR = Math.min(devicePixelRatio || 1, 2);
   W = innerWidth; H = innerHeight; cv.width = W*DPR; cv.height = H*DPR;
   cv.style.width = W+'px'; cv.style.height = H+'px'; }
-const refit = () => { scale = fitScale(); };
-resize(); refit(); addEventListener('resize', () => { resize(); refit(); });
+resize(); addEventListener('resize', resize);
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const mobile = matchMedia('(max-width: 640px)').matches;
@@ -163,7 +162,9 @@ const SPAN_XY = (() => {
   return m;
 })();
 const fitScale = () => Math.min(W / (SPAN_XY * 2.7), H / (FLOORS * FLOOR_H * 1.30));
-let scale = 9; // replaced on first resize
+let scale = 9;
+const refit = () => { scale = fitScale(); };
+refit(); addEventListener('resize', refit);
 let viewMode = 'orbit';
 const ZC = FLOORS * FLOOR_H / 2;
 const CX = () => W * (mobile ? 0.5 : 0.60), CY = () => H * (mobile ? 0.62 : 0.55);
@@ -219,7 +220,7 @@ function drawOrbit(){
   // lift core
   line([0, 0, 0], [0, 0, FLOORS * FLOOR_H], blue, 3, 0.85);
   for (let f = 0; f <= FLOORS; f++) node([0, 0, f * FLOOR_H], blue, 1.8, 0.5);
-  label([0, 0, FLOORS * FLOOR_H + 1.5], 'DoorWise · ' + FLOORS + 'F', blue);
+  label([0, 0, FLOORS * FLOOR_H + 1.5], 'Live · ' + FLOORS + 'F', blue);
   // trunk
   for (let i = 1; i < TRUNK_PTS.length; i++)
     line([...TRUNK_PTS[i-1], 0.4], [...TRUNK_PTS[i], 0.4], '#2A3644', 2, 0.9);
