@@ -1,4 +1,4 @@
-<title>DoorWise — Live Demo — Building Graph 3D</title>
+<title>DoorWise: Live Demo: Building Graph 3D</title>
 <meta name="description" content="Interactive 3D walkthrough of a real 22-floor tower mapped by DoorWise in one 15-minute phone walk.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070A10'/%3E%3Crect x='20' y='14' width='24' height='38' rx='3' fill='none' stroke='%235EE3A8' stroke-width='4'/%3E%3Ccircle cx='38' cy='34' r='3.5' fill='%235EE3A8'/%3E%3C/svg%3E">
 <style>
@@ -132,12 +132,12 @@ function buildRoute(raw){
     unit: u, floor: fl, sfx, wi: ix.wi, di: ix.di, path,
     door: [d.pos[0], d.pos[1], z],
     steps: [
-      'Enter the building — front desk',
+      'Enter the building: front desk',
       'Access rules apply past the desk',
       
       'Lift to floor ' + fl + ' (~' + Math.round(fl * FLOOR_H) + ' m up)',
       'Follow the ' + w.dir.toUpperCase() + ' corridor',
-      'Room ' + u + ' — template from floor 5' + (fl === SURVEYED ? ' (surveyed)' : ' (extrapolated)'),
+      'Room ' + u + ': template from floor 5' + (fl === SURVEYED ? ' (surveyed)' : ' (extrapolated)'),
     ],
   };
 }
@@ -388,7 +388,7 @@ function fpDraw(){
     ctx.shadowBlur = 0; ctx.textAlign = 'left';
   }
   const prog = t / animLen; let idx = stepBounds.findIndex(b => prog <= b); if (idx < 0) idx = 4;
-  cap.textContent = prog >= 1 ? '✓ Room ' + route.unit + ' — arrived' : route.steps[idx];
+  cap.textContent = prog >= 1 ? '✓ Room ' + route.unit + ': arrived' : route.steps[idx];
   updateSteps(prog);
 }
 
