@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DoorWise — Indoor navigation for deliveries</title>
+<meta name="description" content="Google Maps gets you to the building. DoorWise gets you to the door. We map high-rise buildings in one 10-minute phone walk and give delivery riders turn-by-turn indoor navigation to the exact flat.">
+<meta property="og:title" content="DoorWise — Indoor navigation for deliveries">
+<meta property="og:description" content="Google Maps gets you to the building. We get you to the door. Turn-by-turn indoor navigation for the last 100 meters of every delivery.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://dsaraf-hub.github.io/doorwise-site/og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070A10'/%3E%3Crect x='20' y='14' width='24' height='38' rx='3' fill='none' stroke='%235EE3A8' stroke-width='4'/%3E%3Ccircle cx='38' cy='34' r='3.5' fill='%235EE3A8'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#070A10; --bg2:#0B111C; --panel:#0E1622; --line:#1C2637;
+  --text:#EDF2F7; --muted:#93A1B5; --accent:#5EE3A8; --accent2:#6FC3FF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--text);
+  font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  overflow-x:clip;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--text);letter-spacing:.2px}
+.logo:hover{text-decoration:none}
+.logo svg{flex:none}
+.nav-links{display:flex;gap:24px;font-size:14.5px}
+.nav-links a{color:var(--muted)}
+.nav-links a:hover{color:var(--text);text-decoration:none}
+
+.hero{padding:72px 0 40px;text-align:left}
+.kicker{color:var(--accent);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
+h1{font-size:clamp(30px,6vw,52px);line-height:1.12;font-weight:800;letter-spacing:-.02em;max-width:17ch}
+h1 .dim{color:var(--muted);font-weight:700}
+.sub{color:var(--muted);font-size:clamp(16px,2.4vw,19px);max-width:56ch;margin:20px 0 30px}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 24px;border-radius:8px;font-weight:700;font-size:15px;border:1px solid transparent}
+.btn-primary{background:var(--accent);color:#062015}
+.btn-primary:hover{background:#7BEBB9;text-decoration:none}
+.btn-ghost{border-color:var(--line);color:var(--text)}
+.btn-ghost:hover{border-color:var(--accent);text-decoration:none}
+
+.demo-frame{margin:48px 0 8px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg2)}
+.demo-frame iframe{display:block;width:100%;height:480px;border:0}
+.demo-cap{color:var(--muted);font-size:13.5px;padding:4px 2px 0;text-align:center}
+.demo-cap b{color:var(--text)}
+
+section{padding:56px 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(22px,3.6vw,30px);letter-spacing:-.01em;margin-bottom:10px}
+.lede{color:var(--muted);max-width:60ch;margin-bottom:34px}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px}
+.step .n{color:var(--accent);font-weight:800;font-size:13px;letter-spacing:.1em;margin-bottom:10px}
+.step h3{font-size:17px;margin-bottom:8px}
+.step p{color:var(--muted);font-size:14.5px}
+
+.proof{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;text-align:center}
+.stat .v{font-size:26px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.stat .l{color:var(--muted);font-size:13px;margin-top:6px}
+.proof-note{color:var(--muted);font-size:13.5px;margin-top:14px;max-width:70ch}
+
+.founders{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:640px}
+.founder{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+.founder h3{font-size:16px}
+.founder p{color:var(--muted);font-size:14px;margin-top:4px}
+
+.contact-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:32px;max-width:640px}
+.contact-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:16px}
+.email-link{font-size:17px;font-weight:700}
+.copy-btn{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:8px 14px;font-size:13.5px;cursor:pointer;font-family:inherit}
+.copy-btn:hover{border-color:var(--accent);color:var(--text)}
+.copy-msg{font-size:13.5px;min-height:1.4em;margin-top:10px}
+.copy-msg.ok{color:var(--accent)}
+.copy-msg.err{color:#FF8A80}
+
+footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-size:14px}
+.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+.foot-links{display:flex;gap:16px}
+.foot-links a{color:var(--muted)}
+.foot-links a:hover{color:var(--text)}
+
+@media (max-width:760px){
+  .nav-links{gap:14px;font-size:13.5px}
+  .hero{padding:48px 0 28px}
+  .demo-frame iframe{height:380px}
+  .steps{grid-template-columns:1fr}
+  .proof{grid-template-columns:1fr 1fr}
+  .founders{grid-template-columns:1fr}
+  .foot{flex-direction:column;align-items:flex-start}
+}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="./" aria-label="DoorWise home">
+      <svg width="24" height="24" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0E1622"/><rect x="20" y="14" width="24" height="38" rx="3" fill="none" stroke="#5EE3A8" stroke-width="4"/><circle cx="38" cy="34" r="3.5" fill="#5EE3A8"/></svg>
+      DoorWise
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#how">How it works</a>
+      <a href="#demo">Demo</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="hero">
+      <div class="kicker">The last 100 meters</div>
+      <h1>Google Maps gets you to the building.<br><span class="dim">We get you to the door.</span></h1>
+      <p class="sub">In India's gated societies and high-rise towers, GPS dies at the gate and the
+      address stops making sense. DoorWise maps a building in one ten-minute walk with a normal
+      phone, then guides any delivery rider to the exact flat: gate, tower, lift, floor, door.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#demo">See a real mapped building</a>
+        <a class="btn btn-ghost" href="#contact">Talk to us</a>
+      </div>
+    </div>
+
+    <div class="demo-frame" id="demo">
+      <iframe src="demo.html" title="Interactive 3D map of a real building mapped by DoorWise" loading="lazy"></iframe>
+    </div>
+    <p class="demo-cap"><b>This is a real 22-floor residential tower</b>, mapped by one person in one
+    15-minute walk. Drag to orbit. The glowing route is the actual path a rider is guided along:
+    gate&nbsp;→ lift&nbsp;→ floor&nbsp;11&nbsp;→ door.</p>
+  </div>
+
+  <section id="how">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <p class="lede">No beacons. No floor plans. No special hardware. A phone's own sensors are enough.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="n">01 — MAP</div>
+          <h3>One walk per building</h3>
+          <p>A mapper walks the corridors tapping doors while the phone's sensors capture the
+          structure: steps, turns, lifts, floors. Because residential towers repeat floors, one
+          surveyed corridor makes every floor routable — a 240-unit tower is mapped in minutes.</p>
+        </div>
+        <div class="step">
+          <div class="n">02 — GUIDE</div>
+          <h3>Turn-by-turn to the flat</h3>
+          <p>Riders get simple indoor directions — “Gate 2, service lift, floor 11, fourth door on
+          the right” — with live position from sensor fusion. Works on budget Android phones,
+          including those without barometers or gyroscopes.</p>
+        </div>
+        <div class="step">
+          <div class="n">03 — SEE</div>
+          <h3>Live indoor visibility</h3>
+          <p>Operations teams watch the rider inside the building in real time — lobby, lift,
+          corridor, door — closing the blind spot between “reached location” and “delivered.”</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="proof">
+    <div class="wrap">
+      <h2>Measured, not promised</h2>
+      <p class="lede">Every number below is graded against hand-labeled ground truth from real buildings.</p>
+      <div class="proof">
+        <div class="stat"><div class="v">2</div><div class="l">real buildings mapped end-to-end</div></div>
+        <div class="stat"><div class="v">15 min</div><div class="l">to map a 22-floor, 240-unit tower</div></div>
+        <div class="stat"><div class="v">3.8 m</div><div class="l">median door-level localization error</div></div>
+        <div class="stat"><div class="v">93%</div><div class="l">turn detection recall</div></div>
+      </div>
+      <p class="proof-note">Comparable to the published state of the art in phone-only indoor
+      positioning (Zee, Walkie-Markie, Travi-Navi) — built as a working product rather than a paper.</p>
+    </div>
+  </section>
+
+  <section id="founders">
+    <div class="wrap">
+      <h2>Founders</h2>
+      <p class="lede">Friends since elementary school in Mumbai — the city whose buildings we're mapping first.</p>
+      <div class="founders">
+        <div class="founder">
+          <h3>Dakshh Saraf</h3>
+          <p>Sensing, mapping pipeline, and app. San Jose, CA.</p>
+        </div>
+        <div class="founder">
+          <h3>Sparsh Bohra</h3>
+          <p>Field testing and systems. Boston, MA — MS CS, Northeastern University.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-card">
+        <h2>Talk to us</h2>
+        <p class="lede" style="margin-bottom:0">Running deliveries into buildings your riders get lost in?
+        We want to hear about your worst micro-market.</p>
+        <div class="contact-row">
+          <a class="email-link" href="mailto:dakshhsaraf@gmail.com">dakshhsaraf@gmail.com</a>
+          <button class="copy-btn" id="copyBtn" type="button">Copy email</button>
+        </div>
+        <p class="copy-msg" id="copyMsg" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>© 2026 DoorWise. All rights reserved.</div>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="#how">How it works</a>
+      <a href="#demo">Demo</a>
+      <a href="mailto:dakshhsaraf@gmail.com">Email</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', async () => {
+  const msg = document.getElementById('copyMsg');
+  try {
+    await navigator.clipboard.writeText('dakshhsaraf@gmail.com');
+    msg.textContent = 'Email copied to clipboard.';
+    msg.className = 'copy-msg ok';
+  } catch (e) {
+    msg.textContent = 'Could not copy automatically — please select the address above.';
+    msg.className = 'copy-msg err';
+  }
+  setTimeout(() => { msg.textContent = ''; }, 4000);
+});
+</script>
+
+</body>
+</html>
