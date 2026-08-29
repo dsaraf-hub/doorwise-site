@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DoorWise — Indoor navigation for deliveries</title>
+<title>DoorWise, Indoor navigation for deliveries</title>
 <meta name="description" content="Google Maps gets you to the building. DoorWise gets you to the door. We map high-rise buildings in one 10-minute phone walk and give delivery riders turn-by-turn indoor navigation to the exact flat.">
-<meta property="og:title" content="DoorWise — Indoor navigation for deliveries">
+<meta property="og:title" content="DoorWise, Indoor navigation for deliveries">
 <meta property="og:description" content="Google Maps gets you to the building. We get you to the door. Turn-by-turn indoor navigation for the last 100 meters of every delivery.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://dsaraf-hub.github.io/doorwise-site/og.png">
@@ -61,24 +61,26 @@ section{padding:56px 0;border-top:1px solid var(--line)}
 h2{font-size:clamp(22px,3.6vw,30px);letter-spacing:-.01em;margin-bottom:10px}
 .lede{color:var(--muted);max-width:60ch;margin-bottom:34px}
 
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.step{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:48px}
+.steps{border-top:1px solid var(--line)}
+.step{padding:24px 0 8px}
 .step .n{font-family:"IBM Plex Mono",monospace;color:var(--accent);font-weight:600;font-size:13px;letter-spacing:.1em;margin-bottom:10px}
 .step h3{font-size:17px;margin-bottom:8px}
 .step p{color:var(--muted);font-size:14.5px}
 
-.proof{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;text-align:center}
-.stat .v{font-family:"IBM Plex Mono",monospace;font-size:25px;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
+.proof{display:grid;grid-template-columns:repeat(4,1fr);gap:48px}
+.proof{border-top:1px solid var(--line)}
+.stat{padding:24px 0 0;text-align:left}
+.stat .v{font-family:"IBM Plex Mono",monospace;font-size:32px;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
 .stat .l{color:var(--muted);font-size:13px;margin-top:6px}
 .proof-note{color:var(--muted);font-size:13.5px;margin-top:14px;max-width:70ch}
 
-.founders{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:640px}
-.founder{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+.founders{display:grid;grid-template-columns:1fr 1fr;gap:48px;max-width:640px}
+.founder{border-top:1px solid var(--line);padding:20px 0 0}
 .founder h3{font-size:16px}
 .founder p{color:var(--muted);font-size:14px;margin-top:4px}
 
-.contact-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:32px;max-width:640px}
+.contact-card{max-width:640px}
 .contact-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:16px}
 .email-link{font-size:17px;font-weight:700}
 .copy-btn{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:8px 14px;font-size:13.5px;cursor:pointer;font-family:inherit}
@@ -87,13 +89,13 @@ h2{font-size:clamp(22px,3.6vw,30px);letter-spacing:-.01em;margin-bottom:10px}
 .copy-msg.ok{color:var(--accent)}
 .copy-msg.err{color:#FF8A80}
 
-.faq-list{max-width:720px;display:flex;flex-direction:column;gap:8px}
-.faq-list details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0}
-.faq-list summary{cursor:pointer;font-weight:700;font-size:15.5px;padding:16px 20px;list-style:none;position:relative}
+.faq-list{max-width:720px;border-top:1px solid var(--line)}
+.faq-list details{border-bottom:1px solid var(--line)}
+.faq-list summary{cursor:pointer;font-weight:600;font-size:15.5px;padding:18px 40px 18px 0;list-style:none;position:relative}
 .faq-list summary::-webkit-details-marker{display:none}
-.faq-list summary::after{content:"+";position:absolute;right:20px;color:var(--muted);font-weight:400;font-size:20px;line-height:1}
+.faq-list summary::after{content:"+";position:absolute;right:4px;color:var(--muted);font-weight:400;font-size:20px;line-height:1}
 .faq-list details[open] summary::after{content:"\2212"}
-.faq-list details p{color:var(--muted);font-size:14.5px;padding:0 20px 16px}
+.faq-list details p{color:var(--muted);font-size:14.5px;padding:0 0 18px;max-width:60ch}
 
 .wp{font-family:"IBM Plex Mono",monospace;color:var(--amber);font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
 .wp::before{content:"\25C9  "}
@@ -171,8 +173,8 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
         <div class="stat"><div class="v">240</div><div class="l">flats one ambiguous address can point to in a single tower</div></div>
         <div class="stat"><div class="v">2+</div><div class="l">calls to the customer when the rider can't find the flat</div></div>
       </div>
-      <p class="proof-note">Delivery platforms are already spending engineering budgets on this
-      layer &mdash; and every one of their systems stops at the building, because rider GPS
+      <p class="proof-note">Delivery platforms are already spending engineering budgets on this layer,
+      and every one of their systems stops at the building, because rider GPS
       produces no signal indoors. The inside of the building has to be mapped on foot, once.
       That's what we do.</p>
     </div>
@@ -185,24 +187,24 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
       <p class="lede">No beacons. No floor plans. No special hardware. A phone's own sensors are enough.</p>
       <div class="steps">
         <div class="step">
-          <div class="n">01 — MAP</div>
+          <div class="n">01 · MAP</div>
           <h3>One walk per building</h3>
           <p>A mapper walks the corridors tapping doors while the phone's sensors capture the
           structure: steps, turns, lifts, floors. Because residential towers repeat floors, one
-          surveyed corridor makes every floor routable — a 240-unit tower is mapped in minutes.</p>
+          surveyed corridor makes every floor routable: a 240-unit tower is mapped in minutes.</p>
         </div>
         <div class="step">
-          <div class="n">02 — GUIDE</div>
+          <div class="n">02 · GUIDE</div>
           <h3>Turn-by-turn to the flat</h3>
-          <p>Riders get simple indoor directions — “Gate 2, service lift, floor 11, fourth door on
-          the right” — with live position from sensor fusion. Works on budget Android phones,
+          <p>Riders get simple indoor directions (“Gate 2, service lift, floor 11, fourth door on
+          the right”) with live position from sensor fusion. Works on budget Android phones,
           including those without barometers or gyroscopes.</p>
         </div>
         <div class="step">
-          <div class="n">03 — SEE</div>
+          <div class="n">03 · SEE</div>
           <h3>Live indoor visibility</h3>
-          <p>Operations teams watch the rider inside the building in real time — lobby, lift,
-          corridor, door — closing the blind spot between “reached location” and “delivered.”</p>
+          <p>Operations teams watch the rider inside the building in real time, from lobby to lift to
+          corridor to door, closing the blind spot between “reached location” and “delivered.”</p>
         </div>
       </div>
     </div>
@@ -220,7 +222,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
         <div class="stat"><div class="v">93%</div><div class="l">turn detection recall</div></div>
       </div>
       <p class="proof-note">Comparable to the published state of the art in phone-only indoor
-      positioning (Zee, Walkie-Markie, Travi-Navi) — built as a working product rather than a paper.</p>
+      positioning (Zee, Walkie-Markie, Travi-Navi), built as a working product rather than a paper.</p>
     </div>
   </section>
 
@@ -228,7 +230,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
     <div class="wrap">
       <div class="wp" aria-hidden="true">The mappers</div>
       <h2>Founders</h2>
-      <p class="lede">Friends since elementary school in Mumbai — the city whose buildings we're mapping first.</p>
+      <p class="lede">Friends since elementary school in Mumbai, the city whose buildings we're mapping first.</p>
       <div class="founders">
         <div class="founder">
           <h3>Dakshh Saraf</h3>
@@ -236,7 +238,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
         </div>
         <div class="founder">
           <h3>Sparsh Bohra</h3>
-          <p>Field testing and systems. Boston, MA — MS CS, Northeastern University.</p>
+          <p>Field testing and systems. Boston, MA, MS CS, Northeastern University.</p>
         </div>
       </div>
     </div>
@@ -248,7 +250,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
       <div class="faq-list">
         <details>
           <summary>Does it work on budget Android phones?</summary>
-          <p>Yes &mdash; it's designed for India's rider fleet first. Guidance degrades gracefully
+          <p>Yes. It's designed for India's rider fleet first. Guidance degrades gracefully
           on phones without a barometer or gyroscope: we detect lifts from the accelerometer alone
           and fall back to step-and-compass guidance, so even entry-level devices get useful
           directions.</p>
@@ -256,7 +258,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
         <details>
           <summary>Do you need beacons, WiFi infrastructure, or floor plans?</summary>
           <p>No. One person walks the building once with a normal phone. The phone's own sensors
-          &mdash; accelerometer, gyroscope, barometer, compass &mdash; capture the structure. Nothing
+          (accelerometer, gyroscope, barometer, compass) capture the structure. Nothing
           is installed in the building.</p>
         </details>
         <details>
@@ -267,12 +269,12 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
         <details>
           <summary>How do riders get the directions?</summary>
           <p>During pilots, through our app. At scale, guidance embeds into the platform's existing
-          rider app &mdash; the rider sees simple instructions ("Gate 2, service lift, floor 11,
+          rider app, and the rider sees simple instructions ("Gate 2, service lift, floor 11,
           fourth door on the right") inside the flow they already use.</p>
         </details>
         <details>
           <summary>What about resident privacy?</summary>
-          <p>We map corridors, lifts, and door numbers &mdash; the same information printed on the
+          <p>We map corridors, lifts, and door numbers: the same information printed on the
           building's own signage. No cameras are required and nothing inside any home is recorded.</p>
         </details>
       </div>
@@ -350,7 +352,7 @@ document.getElementById('copyBtn').addEventListener('click', async () => {
     msg.textContent = 'Email copied to clipboard.';
     msg.className = 'copy-msg ok';
   } catch (e) {
-    msg.textContent = 'Could not copy automatically — please select the address above.';
+    msg.textContent = 'Could not copy automatically, please select the address above.';
     msg.className = 'copy-msg err';
   }
   setTimeout(() => { msg.textContent = ''; }, 4000);
