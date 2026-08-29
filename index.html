@@ -55,6 +55,16 @@ h1 .dim{color:var(--muted);font-weight:600}
 
 .drawing{margin:56px auto 0;max-width:1160px;padding:0 24px}
 .drawing svg{width:100%;height:auto;display:block}
+.journey{display:grid;grid-template-columns:3fr 2fr;gap:24px;margin-top:24px}
+.fpv-box,.feed-box{border:1.5px solid var(--ink);background:var(--paper)}
+.fpv-head{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;color:var(--ink2);padding:10px 14px;border-bottom:1px solid var(--line)}
+#fpv{display:block;width:100%;height:auto}
+#feed{list-style:none;padding:10px 14px;font-family:"IBM Plex Mono",monospace;font-size:12.5px;display:flex;flex-direction:column;gap:9px;min-height:200px}
+#feed li{color:var(--muted);display:flex;gap:10px;align-items:baseline}
+#feed li.new{color:var(--ink);font-weight:600}
+#feed li.done{color:var(--route)}
+#feed .tt{color:var(--faint);flex:none}
+@media (max-width:860px){.journey{grid-template-columns:1fr}}
 .drawing-cap{font-family:"IBM Plex Mono",monospace;color:var(--muted);font-size:12px;letter-spacing:.06em;text-align:center;margin-top:16px;text-transform:uppercase}
 
 section{padding:72px 0 64px;border-top:1px solid var(--line)}
@@ -125,7 +135,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
 <header>
   <div class="wrap nav">
     <a class="logo" href="./" aria-label="DoorWise home">
-      <svg width="24" height="24" viewBox="0 0 64 64" aria-hidden="true"><rect x="20" y="14" width="24" height="38" rx="3" fill="none" stroke="#1E3A66" stroke-width="5"/><circle cx="38" cy="34" r="4" fill="#0E9F6E"/></svg>
+      <svg width="24" height="24" viewBox="0 0 64 64" aria-hidden="true"><rect x="20" y="14" width="24" height="38" rx="3" fill="none" stroke="#1E3A66" stroke-width="5"/></svg>
       DoorWise
     </a>
     <nav class="nav-links" aria-label="Main">
@@ -150,7 +160,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
   </div>
 
   <div class="drawing" aria-hidden="false">
-<svg viewBox="0 0 1160 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Blueprint of a real 22-floor tower mapped by DoorWise: elevation with lift route and floor 11 plan with numbered doors">
+<svg id="bp" viewBox="0 0 1160 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Blueprint of a real 22-floor tower mapped by DoorWise: elevation with lift route and floor 11 plan with numbered doors">
 <rect x="60" y="56" width="250" height="476" fill="#F7F8FB" stroke="#3D5FA0" stroke-width="1.8"/>
 <line x1="60" y1="510.4" x2="310" y2="510.4" stroke="#AFC2E4" stroke-width="1.1"/>
 <line x1="60" y1="488.7" x2="310" y2="488.7" stroke="#AFC2E4" stroke-width="1.1"/>
@@ -176,7 +186,6 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
 <line x1="215.0" y1="56" x2="215.0" y2="532" stroke="#AFC2E4" stroke-width="1.1" stroke-dasharray="3 4"/>
 <line x1="229.0" y1="56" x2="229.0" y2="532" stroke="#AFC2E4" stroke-width="1.1" stroke-dasharray="3 4"/>
 <line x1="25" y1="532" x2="345" y2="532" stroke="#3D5FA0" stroke-width="2"/>
-<path d="M 32 526 L 222.0 526 L 222.0 304.8181818181818" fill="none" stroke="#0E9F6E" stroke-width="2.6" stroke-linejoin="round"/>
 <circle cx="32" cy="526" r="4.5" fill="#C9871A"/>
 <circle cx="222.0" cy="526" r="4.5" fill="#C9871A"/>
 <circle cx="222.0" cy="304.8181818181818" r="4.5" fill="#C9871A"/>
@@ -226,8 +235,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
 <text x="843.2" y="436.0" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#3D5FA0" text-anchor="start">1103</text>
 <rect x="749.9595079446439" y="385.869297796002" width="18" height="18" fill="none" stroke="#C9871A" stroke-width="1.6"/>
 <text x="772.9595079446439" y="398.869297796002" font-family="IBM Plex Mono, monospace" font-size="11" fill="#C9871A">LIFT</text>
-<path d="M 759.0 394.9 L 759.0 394.9 L 719.8 352.8 L 707.8 364.1" fill="none" stroke="#0E9F6E" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
-<circle cx="707.8" cy="364.1" r="5" fill="#0E9F6E"/>
+
 <rect x="740" y="514" width="400" height="66" fill="#F7F8FB" stroke="#3D5FA0" stroke-width="1.4"/>
 <line x1="740" y1="536" x2="1140" y2="536" stroke="#3D5FA0" stroke-width="1"/>
 <line x1="940.0" y1="536" x2="940.0" y2="580" stroke="#3D5FA0" stroke-width="1"/>
@@ -237,6 +245,16 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
 <text x="950.0" y="554" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#3D5FA0">INSTRUMENT: PHONE SENSORS</text>
 <text x="950.0" y="570" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#3D5FA0">NO BEACONS &#183; NO FLOOR PLANS</text>
 </svg>
+    <div class="journey">
+      <div class="fpv-box">
+        <div class="fpv-head"><span>RIDER VIEW &#183; FIRST PERSON</span><span id="fpvPhase">APPROACHING</span></div>
+        <canvas id="fpv" width="920" height="520" aria-label="First-person wireframe view of the rider walking the mapped route"></canvas>
+      </div>
+      <div class="feed-box">
+        <div class="fpv-head"><span>OPS FEED &#183; LIVE EVENTS</span><span id="feedClock">00:00</span></div>
+        <ol id="feed" aria-live="polite"></ol>
+      </div>
+    </div>
     <p class="drawing-cap">Drawing generated from real sensor data. Every unit number above is a real door, mapped on foot.</p>
   </div>
   <section id="problem">
@@ -399,6 +417,156 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
   </div>
 </footer>
 
+<script>
+(() => {
+  const J = {"elev": {"gate": [32, 526], "lift": [222.0, 526], "floor11": [222.0, 304.8]}, "plan": [[759.0, 394.9], [719.8, 352.8], [706.3, 336.1], [637.0, 273.7], [631.6, 268.9], [586.8, 222.3], [563.1, 206.4], [553.8, 219.9]], "passed": [{"u": "1104", "side": "L", "off": 8}, {"u": "1106", "side": "R", "off": 11}, {"u": "1108", "side": "L", "off": 24}, {"u": "1110", "side": "R", "off": 25}, {"u": "1112", "side": "R", "off": 34}], "target": "1114", "targetSide": "L", "targetPt": [553.8, 219.9]};
+  const svg = document.getElementById('bp');
+  const cv = document.getElementById('fpv'), fx = cv.getContext('2d');
+  const feedEl = document.getElementById('feed'), clockEl = document.getElementById('feedClock'), phaseEl = document.getElementById('fpvPhase');
+  if (!svg || !cv) return;
+  const INK='#1E3A66', INK2='#3D5FA0', FAINT='#B9CAE8', ROUTE='#0E9F6E', AMBER='#C9871A', PAPER='#F7F8FB', MUTED='#5E7191';
+  const NS='http://www.w3.org/2000/svg';
+  const mk = (tag, attrs) => { const el = document.createElementNS(NS, tag); for (const k in attrs) el.setAttribute(k, attrs[k]); svg.appendChild(el); return el; };
+  const trailE = mk('path', {fill:'none', stroke:ROUTE, 'stroke-width':2.6, 'stroke-linejoin':'round', 'stroke-linecap':'round', d:''});
+  const trailP = mk('path', {fill:'none', stroke:ROUTE, 'stroke-width':2.6, 'stroke-linejoin':'round', 'stroke-linecap':'round', d:''});
+  const rider = mk('circle', {r:6, fill:ROUTE, stroke:PAPER, 'stroke-width':2});
+  const ring  = mk('circle', {r:10, fill:'none', stroke:ROUTE, 'stroke-width':2, opacity:0});
+
+  // timeline phases (seconds)
+  const P = { gateEnd:2.4, liftIn:3.4, climbEnd:7.6, walkEnd:13.6, done:14.4, total:17 };
+  const EVENTS = [
+    {t:0.2,  txt:'Arrived at building', sub:'gate matched \u00B17 m'},
+    {t:2.6,  txt:'Entered lift', sub:'lobby, 46 steps'},
+    {t:7.6,  txt:'Reached floor 11', sub:'barometer +33 m'},
+    {t:8.4,  txt:'Following LEFT corridor', sub:'turn detected'},
+    {t:13.9, txt:'Delivered \u00B7 door ' + J.target, sub:'34 steps from lift', done:true},
+  ];
+  const planLens = []; let planTotal = 0;
+  for (let i=1;i<J.plan.length;i++){ const d=Math.hypot(J.plan[i][0]-J.plan[i-1][0], J.plan[i][1]-J.plan[i-1][1]); planLens.push(d); planTotal+=d; }
+  const lerp=(a,b,f)=>[a[0]+(b[0]-a[0])*f, a[1]+(b[1]-a[1])*f];
+  const planAt = f => { let d=f*planTotal; for(let i=0;i<planLens.length;i++){ if(d<=planLens[i]) return lerp(J.plan[i],J.plan[i+1],d/planLens[i]); d-=planLens[i]; } return J.plan[J.plan.length-1]; };
+  const planPathTo = f => { let d=f*planTotal, out='M '+J.plan[0][0]+' '+J.plan[0][1]; for(let i=0;i<planLens.length;i++){ if(d<=planLens[i]){ const p=lerp(J.plan[i],J.plan[i+1],d/planLens[i]); return out+' L '+p[0].toFixed(1)+' '+p[1].toFixed(1);} d-=planLens[i]; out+=' L '+J.plan[i+1][0]+' '+J.plan[i+1][1]; } return out; };
+  const fmt = t => '00:' + String(Math.floor(t)).padStart(2,'0');
+
+  function drawFP(t){
+    const W=cv.width, H=cv.height, cx=W/2, cy=H*0.52;
+    fx.clearRect(0,0,W,H); fx.fillStyle=PAPER; fx.fillRect(0,0,W,H);
+    fx.lineWidth=2; fx.font='600 26px IBM Plex Mono, monospace';
+    const corridor = (prog, doors, showTarget) => {
+      // one-point perspective walls
+      fx.strokeStyle=FAINT; fx.lineWidth=1.5;
+      for (const [x0,y0] of [[0,0],[W,0],[0,H],[W,H]]){ fx.beginPath(); fx.moveTo(x0,y0); fx.lineTo(cx,cy); fx.stroke(); }
+      fx.strokeStyle=INK2; fx.lineWidth=2;
+      fx.strokeRect(cx-W*0.055, cy-H*0.09, W*0.11, H*0.18);
+      // cross-section frames receding
+      for (let i=0;i<6;i++){
+        const z=((i/6 + prog*0.999)%1), sc=0.08+0.92*(1-z);
+        fx.strokeStyle=FAINT; fx.globalAlpha=0.5*(1-z)+0.1; fx.lineWidth=1.2;
+        fx.strokeRect(cx-W*0.5*sc, cy-H*0.5*sc, W*sc, H*sc);
+        fx.globalAlpha=1;
+      }
+      // doors sliding past
+      for (const d of doors){
+        const z = d.z - prog; if (z<=0.02||z>1) continue;
+        const sc=0.08+0.92*(1-z), sign=d.side==='L'?-1:1;
+        const dx=cx+sign*W*0.42*sc, dw=W*0.055*sc, dh=H*0.30*sc, dy=cy+H*0.5*sc;
+        fx.strokeStyle=INK; fx.lineWidth=Math.max(1,2.4*sc);
+        fx.strokeRect(dx-dw/2, dy-dh, dw, dh);
+        if (sc>0.25){ fx.fillStyle=INK2; fx.font=`600 ${Math.max(9,22*sc)}px IBM Plex Mono, monospace`;
+          fx.textAlign='center'; fx.fillText(d.u, dx, dy-dh-8*sc); }
+      }
+      if (showTarget){
+        const z = 1.0 - prog; const sc=0.08+0.92*(1-Math.max(0,z));
+        if (z < 0.35){
+          const sign=J.targetSide==='L'?-1:1;
+          const dx=cx+sign*W*0.42*sc, dw=W*0.06*sc, dh=H*0.32*sc, dy=cy+H*0.5*sc;
+          fx.strokeStyle=ROUTE; fx.lineWidth=3;
+          fx.strokeRect(dx-dw/2, dy-dh, dw, dh);
+          fx.fillStyle=ROUTE; fx.font=`600 ${Math.max(12,24*sc)}px IBM Plex Mono, monospace`;
+          fx.textAlign='center'; fx.fillText(J.target, dx, dy-dh-10*sc);
+        }
+      }
+    };
+    if (t < P.gateEnd){
+      phaseEl.textContent='APPROACHING LOBBY';
+      corridor((t/P.gateEnd)*0.8, [], false);
+      fx.fillStyle=MUTED; fx.font='600 20px IBM Plex Mono, monospace'; fx.textAlign='center';
+      fx.fillText('RECEPTION AHEAD', cx, H*0.16);
+    } else if (t < P.climbEnd){
+      phaseEl.textContent='IN LIFT';
+      // lift interior
+      fx.strokeStyle=INK; fx.lineWidth=2.5;
+      fx.strokeRect(W*0.28, H*0.10, W*0.44, H*0.80);
+      fx.beginPath(); fx.moveTo(cx, H*0.10); fx.lineTo(cx, H*0.90); fx.stroke();
+      const fl = t<P.liftIn ? 1 : Math.min(11, 1 + Math.round(10*(t-P.liftIn)/(P.climbEnd-P.liftIn)));
+      fx.fillStyle=INK; fx.font='600 64px IBM Plex Mono, monospace'; fx.textAlign='center';
+      fx.fillText(String(fl).padStart(2,'0'), cx, H*0.30);
+      fx.fillStyle=AMBER; fx.font='600 22px IBM Plex Mono, monospace';
+      fx.fillText('\u25B2', cx, H*0.38);
+    } else if (t < P.walkEnd){
+      phaseEl.textContent='CORRIDOR \u00B7 FLOOR 11';
+      const prog=(t-P.climbEnd)/(P.walkEnd-P.climbEnd);
+      const doors = J.passed.map((d,i) => ({u:d.u, side:d.side, z:(i+1)/(J.passed.length+1)}));
+      corridor(prog, doors, true);
+    } else {
+      phaseEl.textContent='DELIVERED';
+      corridor(1, [], true);
+      fx.strokeStyle=ROUTE; fx.lineWidth=4; fx.beginPath();
+      fx.arc(cx, cy, 44, 0, 7); fx.stroke();
+      fx.beginPath(); fx.moveTo(cx-16,cy); fx.lineTo(cx-4,cy+13); fx.lineTo(cx+18,cy-13); fx.stroke();
+    }
+    fx.textAlign='start';
+  }
+
+  function drawMap(t){
+    const E=J.elev;
+    if (t < P.gateEnd){
+      const f=t/P.gateEnd, p=lerp(E.gate, E.lift, f);
+      rider.setAttribute('cx',p[0]); rider.setAttribute('cy',p[1]);
+      trailE.setAttribute('d',`M ${E.gate[0]} ${E.gate[1]} L ${p[0]} ${p[1]}`);
+      trailP.setAttribute('d','');
+      ring.setAttribute('opacity',0);
+    } else if (t < P.climbEnd){
+      const f=t<P.liftIn?0:(t-P.liftIn)/(P.climbEnd-P.liftIn), p=lerp(E.lift, E.floor11, f);
+      rider.setAttribute('cx',p[0]); rider.setAttribute('cy',p[1]);
+      trailE.setAttribute('d',`M ${E.gate[0]} ${E.gate[1]} L ${E.lift[0]} ${E.lift[1]} L ${p[0]} ${p[1]}`);
+    } else if (t < P.walkEnd){
+      const f=(t-P.climbEnd)/(P.walkEnd-P.climbEnd), p=planAt(f);
+      rider.setAttribute('cx',p[0]); rider.setAttribute('cy',p[1]);
+      trailE.setAttribute('d',`M ${E.gate[0]} ${E.gate[1]} L ${E.lift[0]} ${E.lift[1]} L ${E.floor11[0]} ${E.floor11[1]}`);
+      trailP.setAttribute('d', planPathTo(f));
+    } else {
+      const p=J.targetPt;
+      rider.setAttribute('cx',p[0]); rider.setAttribute('cy',p[1]);
+      trailP.setAttribute('d', planPathTo(1));
+      ring.setAttribute('cx',p[0]); ring.setAttribute('cy',p[1]);
+      const pulse=1+0.5*Math.sin((t-P.walkEnd)*6);
+      ring.setAttribute('r',10*pulse); ring.setAttribute('opacity',0.8-0.3*pulse);
+    }
+  }
+
+  function drawFeed(t){
+    clockEl.textContent = fmt(Math.min(t, P.total));
+    let html='';
+    EVENTS.forEach((e,i) => {
+      if (t >= e.t){
+        const isNew = !EVENTS[i+1] || t < EVENTS[i+1].t;
+        html += `<li class="${e.done?'done':(isNew?'new':'')}"><span class="tt">${fmt(e.t)}</span><span>${e.txt}<br><small style="color:var(--faint)">${e.sub}</small></span></li>`;
+      }
+    });
+    feedEl.innerHTML = html;
+  }
+
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced){ drawMap(P.total); drawFP(P.walkEnd+1); drawFeed(P.total); return; }
+  let start=performance.now();
+  (function loop(now){
+    const t=((now-start)/1000)%P.total;
+    drawMap(t); drawFP(t); drawFeed(t);
+    requestAnimationFrame(loop);
+  })(start);
+})();
+</script>
 <script>
 document.getElementById('copyBtn').addEventListener('click', async () => {
   const msg = document.getElementById('copyMsg');
