@@ -557,6 +557,8 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
     feedEl.innerHTML = html;
   }
 
+  const dbg = new URLSearchParams(location.search).get('t');
+  if (dbg !== null){ const t=parseFloat(dbg)%P.total; drawMap(t); drawFP(t); drawFeed(t); return; }
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduced){ drawMap(P.total); drawFP(P.walkEnd+1); drawFeed(P.total); return; }
   let start=performance.now();
