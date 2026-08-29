@@ -9,17 +9,20 @@
 <meta property="og:description" content="Google Maps gets you to the building. We get you to the door. Turn-by-turn indoor navigation for the last 100 meters of every delivery.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://dsaraf-hub.github.io/doorwise-site/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070A10'/%3E%3Crect x='20' y='14' width='24' height='38' rx='3' fill='none' stroke='%235EE3A8' stroke-width='4'/%3E%3Ccircle cx='38' cy='34' r='3.5' fill='%235EE3A8'/%3E%3C/svg%3E">
 <style>
 :root{
   --bg:#070A10; --bg2:#0B111C; --panel:#0E1622; --line:#1C2637;
-  --text:#EDF2F7; --muted:#93A1B5; --accent:#5EE3A8; --accent2:#6FC3FF;
+  --text:#EDF2F7; --muted:#93A1B5; --accent:#5EE3A8; --accent2:#6FC3FF; --amber:#F5C84C;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
   background:var(--bg); color:var(--text);
-  font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font:16px/1.6 "IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   overflow-x:clip;
 }
 a{color:var(--accent);text-decoration:none}
@@ -37,8 +40,9 @@ header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px s
 .nav-links a:hover{color:var(--text);text-decoration:none}
 
 .hero{padding:72px 0 40px;text-align:left}
-.kicker{color:var(--accent);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
-h1{font-size:clamp(30px,6vw,52px);line-height:1.12;font-weight:800;letter-spacing:-.02em;max-width:17ch}
+.kicker{font-family:"IBM Plex Mono",monospace;color:var(--amber);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}
+.kicker::before{content:"\25C9  ";color:var(--amber)}
+h1{font-size:clamp(30px,6vw,54px);line-height:1.08;font-weight:700;letter-spacing:-.03em;max-width:17ch}
 h1 .dim{color:var(--muted);font-weight:700}
 .sub{color:var(--muted);font-size:clamp(16px,2.4vw,19px);max-width:56ch;margin:20px 0 30px}
 .cta-row{display:flex;gap:12px;flex-wrap:wrap}
@@ -59,13 +63,13 @@ h2{font-size:clamp(22px,3.6vw,30px);letter-spacing:-.01em;margin-bottom:10px}
 
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .step{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px}
-.step .n{color:var(--accent);font-weight:800;font-size:13px;letter-spacing:.1em;margin-bottom:10px}
+.step .n{font-family:"IBM Plex Mono",monospace;color:var(--accent);font-weight:600;font-size:13px;letter-spacing:.1em;margin-bottom:10px}
 .step h3{font-size:17px;margin-bottom:8px}
 .step p{color:var(--muted);font-size:14.5px}
 
 .proof{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;text-align:center}
-.stat .v{font-size:26px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.stat .v{font-family:"IBM Plex Mono",monospace;font-size:25px;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
 .stat .l{color:var(--muted);font-size:13px;margin-top:6px}
 .proof-note{color:var(--muted);font-size:13.5px;margin-top:14px;max-width:70ch}
 
@@ -91,6 +95,15 @@ h2{font-size:clamp(22px,3.6vw,30px);letter-spacing:-.01em;margin-bottom:10px}
 .faq-list details[open] summary::after{content:"\2212"}
 .faq-list details p{color:var(--muted);font-size:14.5px;padding:0 20px 16px}
 
+.wp{font-family:"IBM Plex Mono",monospace;color:var(--amber);font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
+.wp::before{content:"\25C9  "}
+#rail,#railFill{position:fixed;left:22px;top:0;bottom:0;width:2px;z-index:5}
+#rail{background:var(--line)}
+#railFill{background:linear-gradient(180deg,var(--accent),var(--accent2));height:0;bottom:auto}
+.rail-dot{position:fixed;left:17px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--line);z-index:6;transition:border-color .3s,background .3s}
+.rail-dot.lit{border-color:var(--accent);background:var(--accent)}
+#railLabel{position:fixed;left:40px;bottom:24px;z-index:6;font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:1099px){#rail,#railFill,.rail-dot,#railLabel{display:none}}
 footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-size:14px}
 .foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
 .foot-links{display:flex;gap:16px}
@@ -149,6 +162,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
 
   <section id="problem">
     <div class="wrap">
+      <div class="wp" aria-hidden="true">GPS signal lost</div>
       <h2>The last 100 meters is the hardest part of the trip</h2>
       <p class="lede">Street navigation is solved. What happens after the gate is not.</p>
       <div class="proof">
@@ -166,6 +180,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
 
   <section id="how">
     <div class="wrap">
+      <div class="wp" aria-hidden="true">Route computed</div>
       <h2>How it works</h2>
       <p class="lede">No beacons. No floor plans. No special hardware. A phone's own sensors are enough.</p>
       <div class="steps">
@@ -195,6 +210,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
 
   <section id="proof">
     <div class="wrap">
+      <div class="wp" aria-hidden="true">Position verified</div>
       <h2>Measured, not promised</h2>
       <p class="lede">Every number below is graded against hand-labeled ground truth from real buildings.</p>
       <div class="proof">
@@ -210,6 +226,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
 
   <section id="founders">
     <div class="wrap">
+      <div class="wp" aria-hidden="true">The mappers</div>
       <h2>Founders</h2>
       <p class="lede">Friends since elementary school in Mumbai — the city whose buildings we're mapping first.</p>
       <div class="founders">
@@ -265,6 +282,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
   <section id="contact">
     <div class="wrap">
       <div class="contact-card">
+        <div class="wp" aria-hidden="true">You’ve arrived</div>
         <h2>Talk to us</h2>
         <p class="lede" style="margin-bottom:0">Running deliveries into buildings your riders get lost in?
         We want to hear about your worst micro-market.</p>
@@ -289,7 +307,42 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
   </div>
 </footer>
 
+<div id="rail" aria-hidden="true"></div><div id="railFill" aria-hidden="true"></div><div id="railLabel" aria-hidden="true"></div>
 <script>
+(() => {
+  const rail = document.getElementById('rail');
+  if (!rail || matchMedia('(max-width:1099px)').matches) return;
+  const names = {problem:'GPS signal lost', how:'Route computed', proof:'Position verified',
+                 founders:'The mappers', faq:'Common questions', contact:'You\u2019ve arrived'};
+  const secs = [...document.querySelectorAll('section[id], .demo-frame')].filter(el => el.id);
+  const dots = secs.map(el => {
+    const d = document.createElement('div'); d.className = 'rail-dot';
+    document.body.appendChild(d); return d;
+  });
+  const fill = document.getElementById('railFill'), label = document.getElementById('railLabel');
+  const place = () => {
+    const doc = document.documentElement, max = doc.scrollHeight - innerHeight;
+    secs.forEach((el, i) => {
+      const y = (el.offsetTop / doc.scrollHeight) * innerHeight;
+      dots[i].style.top = Math.min(innerHeight - 18, Math.max(6, y)) + 'px';
+    });
+  };
+  const tick = () => {
+    const doc = document.documentElement, max = doc.scrollHeight - innerHeight;
+    const p = max > 0 ? scrollY / max : 0;
+    fill.style.height = (p * innerHeight) + 'px';
+    let current = 'The last 100 meters';
+    secs.forEach((el, i) => {
+      const passed = scrollY + innerHeight * 0.5 >= el.offsetTop;
+      dots[i].classList.toggle('lit', passed);
+      if (passed && names[el.id]) current = names[el.id];
+    });
+    label.textContent = current;
+  };
+  place(); tick();
+  addEventListener('scroll', tick, {passive:true});
+  addEventListener('resize', () => { place(); tick(); }, {passive:true});
+})();
 document.getElementById('copyBtn').addEventListener('click', async () => {
   const msg = document.getElementById('copyMsg');
   try {
