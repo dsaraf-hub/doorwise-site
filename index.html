@@ -24,7 +24,6 @@ body{
   background:var(--paper); color:var(--ink);
   background-image:linear-gradient(var(--grid) 1px, transparent 1px),linear-gradient(90deg, var(--grid) 1px, transparent 1px);
   background-size:56px 56px;
-  animation:gridDrift 9s linear infinite;
   font:16px/1.65 "IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   overflow-x:clip;
 }
@@ -118,8 +117,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
   .foot{flex-direction:column;align-items:flex-start}
   section{padding:56px 0 48px}
 }
-@keyframes gridDrift{from{background-position:0 0}to{background-position:56px 28px}}
-@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} body{animation:none} }
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
 </style>
 </head>
 <body>
