@@ -58,7 +58,7 @@ h1 .dim{color:var(--muted);font-weight:600}
 .journey{display:grid;grid-template-columns:3fr 2fr;gap:24px;margin-top:24px}
 .fpv-box,.feed-box{border:1.5px solid var(--ink);background:var(--paper)}
 .fpv-head{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;color:var(--ink2);padding:10px 14px;border-bottom:1px solid var(--line)}
-#fpv{display:block;width:100%;height:auto}
+#fpv{display:block;width:100%;height:380px;border:0;background:#070A10}
 #feed{list-style:none;padding:10px 14px;font-family:"IBM Plex Mono",monospace;font-size:12.5px;display:flex;flex-direction:column;gap:9px;min-height:200px}
 #feed li{color:var(--muted);display:flex;gap:10px;align-items:baseline}
 #feed li.new{color:var(--ink);font-weight:600}
@@ -248,7 +248,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
     <div class="journey">
       <div class="fpv-box">
         <div class="fpv-head"><span>RIDER VIEW &#183; FIRST PERSON</span><span id="fpvPhase">APPROACHING</span></div>
-        <canvas id="fpv" width="920" height="520" aria-label="First-person wireframe view of the rider walking the mapped route"></canvas>
+        <iframe id="fpv" src="demo.html?fpv=1114" title="First-person view of the rider walking the mapped route" loading="lazy"></iframe>
       </div>
       <div class="feed-box">
         <div class="fpv-head"><span>OPS FEED &#183; LIVE EVENTS</span><span id="feedClock">00:00</span></div>
@@ -421,9 +421,9 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
 (() => {
   const J = {"elev": {"gate": [32, 526], "lift": [222.0, 526], "floor11": [222.0, 304.8]}, "plan": [[759.0, 394.9], [719.8, 352.8], [706.3, 336.1], [637.0, 273.7], [631.6, 268.9], [586.8, 222.3], [563.1, 206.4], [553.8, 219.9]], "passed": [{"u": "1104", "side": "L", "off": 8}, {"u": "1106", "side": "R", "off": 11}, {"u": "1108", "side": "L", "off": 24}, {"u": "1110", "side": "R", "off": 25}, {"u": "1112", "side": "R", "off": 34}], "target": "1114", "targetSide": "L", "targetPt": [553.8, 219.9]};
   const svg = document.getElementById('bp');
-  const cv = document.getElementById('fpv'), fx = cv.getContext('2d');
+  const fpvFrame = document.getElementById('fpv');
   const feedEl = document.getElementById('feed'), clockEl = document.getElementById('feedClock'), phaseEl = document.getElementById('fpvPhase');
-  if (!svg || !cv) return;
+  if (!svg || !fpvFrame) return;
   const INK='#1E3A66', INK2='#3D5FA0', FAINT='#B9CAE8', ROUTE='#0E9F6E', AMBER='#C9871A', PAPER='#F7F8FB', MUTED='#5E7191';
   const NS='http://www.w3.org/2000/svg';
   const mk = (tag, attrs) => { const el = document.createElementNS(NS, tag); for (const k in attrs) el.setAttribute(k, attrs[k]); svg.appendChild(el); return el; };
@@ -448,75 +448,6 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
   const planPathTo = f => { let d=f*planTotal, out='M '+J.plan[0][0]+' '+J.plan[0][1]; for(let i=0;i<planLens.length;i++){ if(d<=planLens[i]){ const p=lerp(J.plan[i],J.plan[i+1],d/planLens[i]); return out+' L '+p[0].toFixed(1)+' '+p[1].toFixed(1);} d-=planLens[i]; out+=' L '+J.plan[i+1][0]+' '+J.plan[i+1][1]; } return out; };
   const fmt = t => '00:' + String(Math.floor(t)).padStart(2,'0');
 
-  function drawFP(t){
-    const W=cv.width, H=cv.height, cx=W/2, cy=H*0.52;
-    fx.clearRect(0,0,W,H); fx.fillStyle=PAPER; fx.fillRect(0,0,W,H);
-    fx.lineWidth=2; fx.font='600 26px IBM Plex Mono, monospace';
-    const corridor = (prog, doors, showTarget) => {
-      // one-point perspective walls
-      fx.strokeStyle=FAINT; fx.lineWidth=1.5;
-      for (const [x0,y0] of [[0,0],[W,0],[0,H],[W,H]]){ fx.beginPath(); fx.moveTo(x0,y0); fx.lineTo(cx,cy); fx.stroke(); }
-      fx.strokeStyle=INK2; fx.lineWidth=2;
-      fx.strokeRect(cx-W*0.055, cy-H*0.09, W*0.11, H*0.18);
-      // cross-section frames receding
-      for (let i=0;i<6;i++){
-        const z=((i/6 + prog*0.999)%1), sc=0.08+0.92*(1-z);
-        fx.strokeStyle=FAINT; fx.globalAlpha=0.5*(1-z)+0.1; fx.lineWidth=1.2;
-        fx.strokeRect(cx-W*0.5*sc, cy-H*0.5*sc, W*sc, H*sc);
-        fx.globalAlpha=1;
-      }
-      // doors sliding past
-      for (const d of doors){
-        const z = d.z - prog; if (z<=0.02||z>1) continue;
-        const sc=0.08+0.92*(1-z), sign=d.side==='L'?-1:1;
-        const dx=cx+sign*W*0.42*sc, dw=W*0.055*sc, dh=H*0.30*sc, dy=cy+H*0.5*sc;
-        fx.strokeStyle=INK; fx.lineWidth=Math.max(1,2.4*sc);
-        fx.strokeRect(dx-dw/2, dy-dh, dw, dh);
-        if (sc>0.25){ fx.fillStyle=INK2; fx.font=`600 ${Math.max(9,22*sc)}px IBM Plex Mono, monospace`;
-          fx.textAlign='center'; fx.fillText(d.u, dx, dy-dh-8*sc); }
-      }
-      if (showTarget){
-        const z = 1.0 - prog; const sc=0.08+0.92*(1-Math.max(0,z));
-        if (z < 0.35){
-          const sign=J.targetSide==='L'?-1:1;
-          const dx=cx+sign*W*0.42*sc, dw=W*0.06*sc, dh=H*0.32*sc, dy=cy+H*0.5*sc;
-          fx.strokeStyle=ROUTE; fx.lineWidth=3;
-          fx.strokeRect(dx-dw/2, dy-dh, dw, dh);
-          fx.fillStyle=ROUTE; fx.font=`600 ${Math.max(12,24*sc)}px IBM Plex Mono, monospace`;
-          fx.textAlign='center'; fx.fillText(J.target, dx, dy-dh-10*sc);
-        }
-      }
-    };
-    if (t < P.gateEnd){
-      phaseEl.textContent='APPROACHING LOBBY';
-      corridor((t/P.gateEnd)*0.8, [], false);
-      fx.fillStyle=MUTED; fx.font='600 20px IBM Plex Mono, monospace'; fx.textAlign='center';
-      fx.fillText('RECEPTION AHEAD', cx, H*0.16);
-    } else if (t < P.climbEnd){
-      phaseEl.textContent='IN LIFT';
-      // lift interior
-      fx.strokeStyle=INK; fx.lineWidth=2.5;
-      fx.strokeRect(W*0.28, H*0.10, W*0.44, H*0.80);
-      fx.beginPath(); fx.moveTo(cx, H*0.10); fx.lineTo(cx, H*0.90); fx.stroke();
-      const fl = t<P.liftIn ? 1 : Math.min(11, 1 + Math.round(10*(t-P.liftIn)/(P.climbEnd-P.liftIn)));
-      fx.fillStyle=INK; fx.font='600 64px IBM Plex Mono, monospace'; fx.textAlign='center';
-      fx.fillText(String(fl).padStart(2,'0'), cx, H*0.30);
-      fx.fillStyle=AMBER; fx.font='600 22px IBM Plex Mono, monospace';
-      fx.fillText('\u25B2', cx, H*0.38);
-    } else if (t < P.walkEnd){
-      phaseEl.textContent='CORRIDOR \u00B7 FLOOR 11';
-      const prog=(t-P.climbEnd)/(P.walkEnd-P.climbEnd);
-      const doors = J.passed.map((d,i) => ({u:d.u, side:d.side, z:(i+1)/(J.passed.length+1)}));
-      corridor(prog, doors, true);
-    } else {
-      phaseEl.textContent='DELIVERED';
-      corridor(1, [], true);
-      fx.strokeStyle=ROUTE; fx.lineWidth=4; fx.beginPath();
-      fx.arc(cx, cy, 44, 0, 7); fx.stroke();
-      fx.beginPath(); fx.moveTo(cx-16,cy); fx.lineTo(cx-4,cy+13); fx.lineTo(cx+18,cy-13); fx.stroke();
-    }
-    fx.textAlign='start';
-  }
 
   function drawMap(t){
     const E=J.elev;
@@ -557,14 +488,20 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
     feedEl.innerHTML = html;
   }
 
+  function syncFP(t){
+    try { fpvFrame.contentWindow.postMessage({dw:'t', t, P}, '*'); } catch(e){}
+    phaseEl.textContent = t < P.gateEnd ? 'APPROACHING LOBBY'
+      : t < P.climbEnd ? 'IN LIFT'
+      : t < P.walkEnd ? 'CORRIDOR \u00B7 FLOOR 11' : 'DELIVERED';
+  }
   const dbg = new URLSearchParams(location.search).get('t');
-  if (dbg !== null){ const t=parseFloat(dbg)%P.total; drawMap(t); drawFP(t); drawFeed(t); return; }
+  if (dbg !== null){ const t=parseFloat(dbg)%P.total; drawMap(t); drawFeed(t); const w=()=>syncFP(t); fpvFrame.addEventListener('load', w); w(); return; }
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced){ drawMap(P.total); drawFP(P.walkEnd+1); drawFeed(P.total); return; }
+  if (reduced){ drawMap(P.total); drawFeed(P.total); const w=()=>syncFP(P.walkEnd); fpvFrame.addEventListener('load', w); w(); return; }
   let start=performance.now();
   (function loop(now){
     const t=((now-start)/1000)%P.total;
-    drawMap(t); drawFP(t); drawFeed(t);
+    drawMap(t); drawFeed(t); syncFP(t);
     requestAnimationFrame(loop);
   })(start);
 })();

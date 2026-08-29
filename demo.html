@@ -60,6 +60,7 @@
     h1 { font-size: 16px; }
   }
   @media (prefers-reduced-motion: reduce) { ol li { transition: none; } }
+#vWalk{display:none}
 </style>
 
 <canvas id="scene"></canvas>
@@ -81,7 +82,7 @@
     <div class="hint">Floor+room, e.g. 1104, 1404, 2204 · drag to orbit · pinch/scroll to zoom</div>
     <div class="go-row" role="group" aria-label="View mode">
       <button id="vOrbit" class="vbtn on" type="button">Tower</button>
-      
+      <button id="vWalk" class="vbtn" type="button">First-person</button>
     </div>
     <div class="err" id="err"></div>
     <ol id="steps"></ol>
@@ -409,7 +410,7 @@ let last = performance.now();
 function frame(now){
   const dt = (now - last) / 1000; last = now;
   if (autoSpin && viewMode === 'orbit') theta += dt * 0.10;
-  if (route && animT < animLen) animT += dt * animLen / (viewMode === 'walk' ? 16 : 9);
+  if (route && animT < animLen && !window.__HERO__) animT += dt * animLen / (viewMode === 'walk' ? 16 : 9);
   if (viewMode === 'walk') fpDraw(); else drawOrbit();
   requestAnimationFrame(frame);
 }
@@ -475,4 +476,40 @@ function go(){
 document.getElementById('go').addEventListener('click', go);
 document.getElementById('unit').addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
 go();
+
+// hero-embed: ?fpv=UNIT hides UI, enters first-person, and syncs to parent clock
+(() => {
+  const HERO = new URLSearchParams(location.search).get('fpv');
+  if (!HERO) return;
+  window.__HERO__ = true;
+  document.getElementById('panel').style.display = 'none';
+  const lg = document.querySelector('.legend'); if (lg) lg.style.display = 'none';
+  document.getElementById('unit').value = HERO;
+  go(); setView('walk');
+  const seg = () => {
+    const p = route.path, cum = [0];
+    for (let i = 1; i < p.length; i++){
+      const a = p[i-1], b = p[i];
+      cum.push(cum[i-1] + Math.hypot(b[0]-a[0], b[1]-a[1], (b[2]-a[2]) * 0.55));
+    }
+    let s = -1, e = -1;
+    for (let i = 1; i < p.length; i++)
+      if (Math.abs(p[i][2] - p[i-1][2]) > 1){ if (s < 0) s = i - 1; e = i; }
+    const total = cum[cum.length-1];
+    return { ls: s >= 0 ? cum[s] : total, le: e >= 0 ? cum[e] : total, total };
+  };
+  addEventListener('message', ev => {
+    const d = ev.data || {};
+    if (d.dw !== 't' || !route) return;
+    const { ls, le, total } = seg();
+    const P = d.P, t = d.t;
+    let a;
+    if (t <= P.gateEnd) a = (t / P.gateEnd) * ls;
+    else if (t <= P.liftIn) a = ls;
+    else if (t <= P.climbEnd) a = ls + (le - ls) * (t - P.liftIn) / (P.climbEnd - P.liftIn);
+    else if (t <= P.walkEnd) a = le + (total - le) * (t - P.climbEnd) / (P.walkEnd - P.climbEnd);
+    else a = total;
+    animT = a;
+  });
+})();
 </script>
