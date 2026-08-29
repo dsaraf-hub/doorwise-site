@@ -1,6 +1,6 @@
-<title>DoorWise: Live Demo: Building Graph 3D</title>
+<title>DoorWise Live Demo: Building Graph 3D</title>
 <meta name="description" content="Interactive 3D walkthrough of a real 22-floor tower mapped by DoorWise in one 15-minute phone walk.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070A10'/%3E%3Crect x='20' y='14' width='24' height='38' rx='3' fill='none' stroke='%235EE3A8' stroke-width='4'/%3E%3Ccircle cx='38' cy='34' r='3.5' fill='%235EE3A8'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23F7F8FB'/%3E%3Crect x='20' y='14' width='24' height='38' rx='3' fill='none' stroke='%233D5FA0' stroke-width='4'/%3E%3Ccircle cx='38' cy='34' r='3.5' fill='%230E9F6E'/%3E%3C/svg%3E">
 <style>
   :root {
     --bg: #0A0E13; --panel: #12171Ef2; --line: #232B35;
@@ -67,18 +67,18 @@
 <div class="panel" id="panel">
   <div class="panel-head">
     <div>
-      <div class="eyebrow">DoorWise · Live Demo</div>
+      <div class="eyebrow">DoorWise · DoorWise Live Demo</div>
       <h1>Building graph, live</h1>
     </div>
     <button id="collapse" aria-label="Collapse panel">▾</button>
   </div>
   <div class="body">
-    <div class="sub">12 floors · 11 doors surveyed on floor 11 · gate anchored ±6.9 m</div>
+    <div class="sub">22 floors · 11 doors surveyed on floor 11 · gate anchored ±6.9 m</div>
     <div class="go-row">
       <input id="unit" inputmode="numeric" placeholder="1104" value="1104" aria-label="Room number">
       <button id="go">Route</button>
     </div>
-    <div class="hint">Floor+room, e.g. 1104, 1204, 1204 · drag to orbit · pinch/scroll to zoom</div>
+    <div class="hint">Floor+room, e.g. 1104, 1404, 2204 · drag to orbit · pinch/scroll to zoom</div>
     <div class="go-row" role="group" aria-label="View mode">
       <button id="vOrbit" class="vbtn on" type="button">Tower</button>
       <button id="vWalk" class="vbtn" type="button">First-person</button>
@@ -99,7 +99,7 @@
 <script>
 // ---- CV2 graph: stitched wings from build_map.py (real survey data) ----
 const DATA = {"wings":[{"dir":"left","poly":[[0.0,0.0],[-3.82,4.1],[-5.14,5.73],[-11.9,11.82],[-12.42,12.29],[-16.79,16.83],[-19.11,18.39],[-24.84,24.54],[-24.84,24.54],[-27.19,21.05]],"doors":[{"u":"1104","sfx":"04","pos":[-4.99,3.0],"proj":[-3.82,4.1],"j":false},{"u":"1106","sfx":"06","pos":[-3.9,6.73],"proj":[-5.14,5.73],"j":false},{"u":"1108","sfx":"08","pos":[-12.97,10.63],"proj":[-11.9,11.82],"j":false},{"u":"1110","sfx":"10","pos":[-11.32,13.46],"proj":[-12.42,12.29],"j":false},{"u":"1112","sfx":"12","pos":[-15.64,17.94],"proj":[-16.79,16.83],"j":false},{"u":"1114","sfx":"14","pos":[-20.01,17.07],"proj":[-19.11,18.39],"j":false},{"u":"1116","sfx":"16","pos":[-23.67,25.63],"proj":[-24.84,24.54],"j":false},{"u":"1118","sfx":"18","pos":[-25.89,25.74],"proj":[-24.84,24.54],"j":false},{"u":"1120","sfx":"20","pos":[-28.09,19.73],"proj":[-27.19,21.05],"j":false}]},{"dir":"right","poly":[[0.0,0.0],[4.83,-4.05],[6.66,-5.07]],"doors":[{"u":"1101","sfx":"01","pos":[3.8,-5.28],"proj":[4.83,-4.05],"j":false},{"u":"1103","sfx":"03","pos":[7.44,-3.67],"proj":[6.66,-5.07],"j":false}]}],"anchor":{"lat":37.32985,"lon":-121.88703,"est_error_m":6.9,"n_fixes":107},"run":{"steps_pre_lift":{"mean":46.0,"sd":2.6,"n":6,"values":[47,45,46,44,43,51]},"steps_post_lift":{"mean":41.7,"sd":4.2,"n":6,"values":[38,43,39,42,38,50]}}};
-const FLOOR_H = 3.1, FLOORS = 12, SURVEYED = 11;
+const FLOOR_H = 3.1, FLOORS = 22, SURVEYED = 11;
 // trunk gate->lift: 49 steps measured; shape schematic (no headings recorded indoors)
 const STRIDE = 0.7;
 const TRUNK_PTS = [[-6,-30],[-6,-12],[0,-6],[0,0]];
@@ -149,11 +149,21 @@ let W, H, DPR;
 function resize(){ DPR = Math.min(devicePixelRatio || 1, 2);
   W = innerWidth; H = innerHeight; cv.width = W*DPR; cv.height = H*DPR;
   cv.style.width = W+'px'; cv.style.height = H+'px'; }
-resize(); addEventListener('resize', resize);
+const refit = () => { scale = fitScale(); };
+resize(); refit(); addEventListener('resize', () => { resize(); refit(); });
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const mobile = matchMedia('(max-width: 640px)').matches;
-let theta = 0.6, autoSpin = !reduced, scale = mobile ? 6 : 9;
+let theta = 0.6, autoSpin = !reduced;
+const SPAN_XY = (() => {
+  let m = 8;
+  const eat = p => { m = Math.max(m, Math.hypot(p[0], p[1])); };
+  (DATA.wings||[]).forEach(w => { w.poly.forEach(eat); (w.doors||[]).forEach(d => eat(d.pos)); });
+  (TRUNK_PTS||[]).forEach(eat);
+  return m;
+})();
+const fitScale = () => Math.min(W / (SPAN_XY * 2.7), H / (FLOORS * FLOOR_H * 1.30));
+let scale = 9; // replaced on first resize
 let viewMode = 'orbit';
 const ZC = FLOORS * FLOOR_H / 2;
 const CX = () => W * (mobile ? 0.5 : 0.60), CY = () => H * (mobile ? 0.62 : 0.55);
@@ -220,14 +230,15 @@ function drawOrbit(){
   for (let f = 2; f <= FLOORS; f++){
     const z = f * FLOOR_H;
     const bright = f === SURVEYED || (route && f === route.floor);
-    if (!bright && mobile && f % 2) continue; // thin out on phones
+    
     DATA.wings.forEach((w, wi) => {
       const c = WINGCOLORS[wi % WINGCOLORS.length];
       for (let i = 1; i < w.poly.length; i++)
         line([w.poly[i-1][0], w.poly[i-1][1], z], [w.poly[i][0], w.poly[i][1], z],
-             c, bright ? 1.6 : 1, bright ? 0.55 : 0.15);
-      if (bright) for (const d of w.doors){
-        node([d.pos[0], d.pos[1], z], d.j ? gold : c, d.j ? 3.2 : 2, 0.85);
+             c, bright ? 1.6 : 1.1, bright ? 0.6 : 0.32);
+      for (const d of w.doors){
+        if (bright) node([d.pos[0], d.pos[1], z], d.j ? gold : c, d.j ? 3.2 : 2, 0.85);
+        else node([d.pos[0], d.pos[1], z], c, 1.3, 0.30);
       }
     });
   }
