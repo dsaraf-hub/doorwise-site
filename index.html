@@ -83,6 +83,14 @@ h2{font-size:clamp(22px,3.6vw,30px);letter-spacing:-.01em;margin-bottom:10px}
 .copy-msg.ok{color:var(--accent)}
 .copy-msg.err{color:#FF8A80}
 
+.faq-list{max-width:720px;display:flex;flex-direction:column;gap:8px}
+.faq-list details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0}
+.faq-list summary{cursor:pointer;font-weight:700;font-size:15.5px;padding:16px 20px;list-style:none;position:relative}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary::after{content:"+";position:absolute;right:20px;color:var(--muted);font-weight:400;font-size:20px;line-height:1}
+.faq-list details[open] summary::after{content:"\2212"}
+.faq-list details p{color:var(--muted);font-size:14.5px;padding:0 20px 16px}
+
 footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-size:14px}
 .foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
 .foot-links{display:flex;gap:16px}
@@ -138,6 +146,23 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
     15-minute walk. Drag to orbit. The glowing route is the actual path a rider is guided along:
     gate&nbsp;→ lift&nbsp;→ floor&nbsp;11&nbsp;→ door.</p>
   </div>
+
+  <section id="problem">
+    <div class="wrap">
+      <h2>The last 100 meters is the hardest part of the trip</h2>
+      <p class="lede">Street navigation is solved. What happens after the gate is not.</p>
+      <div class="proof">
+        <div class="stat"><div class="v">0 m</div><div class="l">how far GPS works past the building gate</div></div>
+        <div class="stat"><div class="v">20&ndash;30%</div><div class="l">of a 10-minute delivery spent inside the building</div></div>
+        <div class="stat"><div class="v">240</div><div class="l">flats one ambiguous address can point to in a single tower</div></div>
+        <div class="stat"><div class="v">2+</div><div class="l">calls to the customer when the rider can't find the flat</div></div>
+      </div>
+      <p class="proof-note">Delivery platforms are already spending engineering budgets on this
+      layer &mdash; and every one of their systems stops at the building, because rider GPS
+      produces no signal indoors. The inside of the building has to be mapped on foot, once.
+      That's what we do.</p>
+    </div>
+  </section>
 
   <section id="how">
     <div class="wrap">
@@ -196,6 +221,43 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-s
           <h3>Sparsh Bohra</h3>
           <p>Field testing and systems. Boston, MA — MS CS, Northeastern University.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2>Common questions</h2>
+      <div class="faq-list">
+        <details>
+          <summary>Does it work on budget Android phones?</summary>
+          <p>Yes &mdash; it's designed for India's rider fleet first. Guidance degrades gracefully
+          on phones without a barometer or gyroscope: we detect lifts from the accelerometer alone
+          and fall back to step-and-compass guidance, so even entry-level devices get useful
+          directions.</p>
+        </details>
+        <details>
+          <summary>Do you need beacons, WiFi infrastructure, or floor plans?</summary>
+          <p>No. One person walks the building once with a normal phone. The phone's own sensors
+          &mdash; accelerometer, gyroscope, barometer, compass &mdash; capture the structure. Nothing
+          is installed in the building.</p>
+        </details>
+        <details>
+          <summary>How long does mapping a building take?</summary>
+          <p>About 15 minutes for a 22-floor, 240-unit tower. Residential towers repeat their floor
+          layout, so surveying one corridor makes every floor routable.</p>
+        </details>
+        <details>
+          <summary>How do riders get the directions?</summary>
+          <p>During pilots, through our app. At scale, guidance embeds into the platform's existing
+          rider app &mdash; the rider sees simple instructions ("Gate 2, service lift, floor 11,
+          fourth door on the right") inside the flow they already use.</p>
+        </details>
+        <details>
+          <summary>What about resident privacy?</summary>
+          <p>We map corridors, lifts, and door numbers &mdash; the same information printed on the
+          building's own signage. No cameras are required and nothing inside any home is recorded.</p>
+        </details>
       </div>
     </div>
   </section>
