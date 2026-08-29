@@ -92,7 +92,7 @@
 <div id="caption"></div>
 
 <div class="legend">
-  <span><span class="dot" style="background:var(--sjsuB)"></span>lift core</span>
+  <span><span class="dot" style="background:var(--sjsuB)"></span>elevator core</span>
   <span><span class="dot" style="background:var(--sjsuG)"></span>junction</span>
   <span><span class="dot" style="background:var(--route)"></span>route</span>
 </div>
@@ -136,7 +136,7 @@ function buildRoute(raw){
       'Enter the building: front desk',
       'Access rules apply past the desk',
       
-      'Lift to floor ' + fl + ' (~' + Math.round(fl * FLOOR_H) + ' m up)',
+      'Elevator to floor ' + fl + ' (~' + Math.round(fl * FLOOR_H) + ' m up)',
       'Follow the ' + w.dir.toUpperCase() + ' corridor',
       'Room ' + u + ': template from floor 5' + (fl === SURVEYED ? ' (surveyed)' : ' (extrapolated)'),
     ],
@@ -218,7 +218,7 @@ function drawOrbit(){
   ctx.lineCap = 'round'; ctx.lineJoin = 'round';
   const routeC = getCSS('--route'), gold = getCSS('--sjsuG'), blue = getCSS('--sjsuB');
 
-  // lift core
+  // elevator core
   line([0, 0, 0], [0, 0, FLOORS * FLOOR_H], blue, 3, 0.85);
   for (let f = 0; f <= FLOORS; f++) node([0, 0, f * FLOOR_H], blue, 1.8, 0.5);
   label([0, 0, FLOORS * FLOOR_H + 1.5], 'Live · ' + FLOORS + 'F', blue);

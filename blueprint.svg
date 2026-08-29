@@ -28,7 +28,7 @@
 <circle cx="222.0" cy="526" r="4.5" fill="#C9871A"/>
 <circle cx="222.0" cy="304.8181818181818" r="4.5" fill="#C9871A"/>
 <text x="24" y="554" font-family="IBM Plex Mono, monospace" font-size="11" fill="#3D5FA0">GATE</text>
-<text x="239.0" y="520" font-family="IBM Plex Mono, monospace" font-size="11" fill="#3D5FA0">LIFT</text>
+<text x="239.0" y="520" font-family="IBM Plex Mono, monospace" font-size="11" fill="#3D5FA0">ELEVATOR</text>
 <text x="237.0" y="308.8181818181818" font-family="IBM Plex Mono, monospace" font-size="11" fill="#3D5FA0">FLOOR 11</text>
 <line x1="38" y1="532" x2="38" y2="304.8181818181818" stroke="#AFC2E4" stroke-width="1"/>
 <line x1="33" y1="304.8181818181818" x2="43" y2="304.8181818181818" stroke="#AFC2E4" stroke-width="1"/>
@@ -72,7 +72,7 @@
 <circle cx="835.2" cy="432.5" r="3" fill="none" stroke="#3D5FA0" stroke-width="1.3"/>
 <text x="843.2" y="436.0" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#3D5FA0" text-anchor="start">1103</text>
 <rect x="749.9595079446439" y="385.869297796002" width="18" height="18" fill="none" stroke="#C9871A" stroke-width="1.6"/>
-<text x="772.9595079446439" y="398.869297796002" font-family="IBM Plex Mono, monospace" font-size="11" fill="#C9871A">LIFT</text>
+<text x="772.9595079446439" y="398.869297796002" font-family="IBM Plex Mono, monospace" font-size="11" fill="#C9871A">ELEVATOR</text>
 
 <rect x="740" y="514" width="400" height="66" fill="#F7F8FB" stroke="#3D5FA0" stroke-width="1.4"/>
 <line x1="740" y1="536" x2="1140" y2="536" stroke="#3D5FA0" stroke-width="1"/>
