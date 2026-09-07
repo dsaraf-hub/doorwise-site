@@ -1,6 +1,6 @@
-import {icon} from './icons.js?v=7693e40a6023';
+import {icon} from './icons.js?v=e0209c5a7443';
 import * as THREE from 'three';
-import {surface,qualityControl,createRenderer,graphicsFailure} from './render-quality.js?v=7693e40a6023';
+import {surface,qualityControl,createRenderer,graphicsFailure} from './render-quality.js?v=e0209c5a7443';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 const host=document.querySelector('#scene');
 try {
