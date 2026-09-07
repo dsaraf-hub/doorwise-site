@@ -19,8 +19,7 @@ export function graphicsFailure(error,host,fallback){
  fallback.textContent=unavailable?'This browser could not start interactive 3D. You can still explore the rider map below.':'The 3D preview could not finish loading. Reload the page to try again, or explore the rider map below.';
  const link=document.createElement('a');link.href='demo.html';link.textContent='Open the lightweight rider map';link.style.display='block';link.style.textDecoration='underline';fallback.appendChild(link);
 }
-export function qualityControl(renderer,host,label){
- const control=document.createElement('select');control.className='quality-control';control.setAttribute('aria-label',label+' rendering quality');control.innerHTML='<option value="balanced">Clear</option><option value="lite">Low graphics</option>';host.parentElement.appendChild(control);
- const resize=()=>{const w=host.clientWidth,h=host.clientHeight;if(!w||!h)return;const gl=renderer.getContext();if(gl.isContextLost())return;const limit=Math.min(renderer.capabilities.maxTextureSize,gl.getParameter(gl.MAX_RENDERBUFFER_SIZE));renderer.setPixelRatio(renderRatio(w,h,devicePixelRatio,control.value,limit));renderer.setSize(w,h);renderer.domElement.dataset.renderResolution=`${renderer.domElement.width} × ${renderer.domElement.height}`;control.title=`Rendered at ${renderer.domElement.dataset.renderResolution}`};
- control.addEventListener('change',()=>{resize();host.dispatchEvent(new Event('qualitychange'))});return resize;
+export function qualityControl(renderer,host){
+ // Always use the clear rendering budget; no visitor-facing graphics settings.
+ return ()=>{const w=host.clientWidth,h=host.clientHeight;if(!w||!h)return;const gl=renderer.getContext();if(gl.isContextLost())return;const limit=Math.min(renderer.capabilities.maxTextureSize,gl.getParameter(gl.MAX_RENDERBUFFER_SIZE));renderer.setPixelRatio(renderRatio(w,h,devicePixelRatio,'balanced',limit));renderer.setSize(w,h);renderer.domElement.dataset.renderResolution=`${renderer.domElement.width} × ${renderer.domElement.height}`};
 }
