@@ -1,6 +1,6 @@
-import {icon} from './icons.js';
+import {icon} from './icons.js?v=7693e40a6023';
 import * as THREE from 'three';
-import {surface,qualityControl,createRenderer,graphicsFailure} from './render-quality.js';
+import {surface,qualityControl,createRenderer,graphicsFailure} from './render-quality.js?v=7693e40a6023';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 const host=document.querySelector('#scene');
 try {
@@ -64,21 +64,75 @@ for(const [x,z,w,h,d] of [[-13,-10,6,13,6],[12,-12,7,18,7],[-5,-17,6,16,5],[5,-2
 }
 // The motorbike approaches along the street, then stays parked outside.
 box(30,.035,2.4,0,-.03,10.7,new THREE.MeshStandardMaterial({color:0xc9d5e3}),false);
+// A compact commuter motorcycle, modelled in metres along the X axis.
 const bike=new THREE.Group();model.add(bike);
-function bikePart(geo,mat,x,y,z){const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);bike.add(m);return m;}
-const tyre=new THREE.MeshStandardMaterial({color:0x26384f,roughness:.9});
+const tyre=new THREE.MeshStandardMaterial({color:0x19212b,roughness:.94});
+const metal=new THREE.MeshStandardMaterial({color:0xa9b5c2,metalness:.75,roughness:.32});
+const engineMat=new THREE.MeshStandardMaterial({color:0x46515e,metalness:.6,roughness:.5});
+const paint=new THREE.MeshStandardMaterial({color:0x2856b8,metalness:.32,roughness:.28});
+const lamp=new THREE.MeshStandardMaterial({color:0xfff4d5,emissive:0xffe8b0,emissiveIntensity:.5});
+const redLamp=new THREE.MeshStandardMaterial({color:0xd34237,emissive:0x8b1d16,emissiveIntensity:.3});
+function part(geo,mat,x,y,z,parent=bike){const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);parent.add(m);return m;}
+function rod(a,b,r,mat,parent=bike){const p=new THREE.Vector3(...a),q=new THREE.Vector3(...b);const m=part(new THREE.CylinderGeometry(r,r,p.distanceTo(q),8),mat,...p.clone().add(q).multiplyScalar(.5).toArray(),parent);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),q.sub(p).normalize());return m;}
+function oval(x,y,z,sx,sy,sz,mat,parent=bike){const m=part(new THREE.SphereGeometry(1,16,10),mat,x,y,z,parent);m.scale.set(sx,sy,sz);return m;}
 const wheels=[];
-for(const x of [-.62,.62]){const wheel=bikePart(new THREE.TorusGeometry(.32,.09,8,20),tyre,x,.4,0);wheels.push(wheel);bikePart(new THREE.CylinderGeometry(.07,.07,.23,8),dark,x,.4,0).rotation.x=Math.PI/2;}
-bikePart(new THREE.BoxGeometry(1.05,.24,.35),blue,0,.67,0);
-bikePart(new THREE.BoxGeometry(.7,.12,.38),tyre,-.1,.91,0);
-bikePart(new THREE.BoxGeometry(.44,.48,.46),blue,-.66,1.06,0);
-bikePart(new THREE.CylinderGeometry(.035,.035,.65,8),dark,.55,.78,0).rotation.z=-.3;
-bikePart(new THREE.BoxGeometry(.09,.07,.66),tyre,.62,1.13,0);
-bikePart(new THREE.SphereGeometry(.1,10,8),white,.81,.98,0);
+for(const x of [-.73,.73]){
+ const wheel=new THREE.Group();wheel.position.set(x,.37,0);bike.add(wheel);wheels.push(wheel);
+ part(new THREE.TorusGeometry(.285,.085,10,32),tyre,0,0,0,wheel);
+ part(new THREE.TorusGeometry(.227,.022,6,24),metal,0,0,0,wheel);
+ const hub=part(new THREE.CylinderGeometry(.07,.07,.2,12),engineMat,0,0,0,wheel);hub.rotation.x=Math.PI/2;
+ for(let i=0;i<6;i++){const a=i*Math.PI/3;rod([0,0,0],[Math.cos(a)*.22,Math.sin(a)*.22,0],.012,metal,wheel);}
+ const disc=part(new THREE.CylinderGeometry(.13,.13,.015,20),metal,0,0,.105,wheel);disc.rotation.x=Math.PI/2;
+ // Slim curved mudguard follows the tyre without enclosing the wheel.
+ part(new THREE.TorusGeometry(.392,.032,6,24,Math.PI),x>0?paint:tyre,x,.37,0);
+}
+for(const z of [-.135,.135]){
+ rod([-.73,.37,z],[-.22,.57,z],.034,engineMat);
+ rod([-.22,.57,z],[.4,.98,z],.035,engineMat);
+ rod([-.55,.89,z],[-.22,.57,z],.03,engineMat);
+ rod([-.55,.89,z],[.4,.98,z],.026,engineMat);
+ rod([.73,.37,z],[.48,.94,z],.032,metal);
+ rod([.53,.78,z],[.43,1.06,z],.044,engineMat);
+ rod([-.68,.43,z],[-.48,.86,z],.032,metal);
+ for(let i=0;i<6;i++){const spring=part(new THREE.TorusGeometry(.047,.009,5,10),tyre,-.65+i*.023,.5+i*.045,z);spring.rotation.x=Math.PI/2;}
+}
+oval(.03,.86,0,.34,.19,.19,paint); // sculpted fuel tank
+part(new THREE.CylinderGeometry(.05,.05,.014,12),metal,.06,1.046,0);
+oval(-.4,.91,0,.32,.075,.18,tyre);
+oval(-.05,.49,0,.19,.14,.15,engineMat);
+for(let i=0;i<5;i++)part(new THREE.BoxGeometry(.25,.018,.31),metal,.1,.57+i*.035,0);
+rod([.22,.57,.13],[.29,.29,.19],.025,metal);
+rod([.29,.29,.19],[-.66,.3,.23],.045,metal);
+rod([-.68,.3,.23],[-.82,.32,.23],.052,engineMat);
+rod([.43,1.06,0],[.5,1.13,0],.035,metal);
+rod([.5,1.13,-.27],[.5,1.13,.27],.022,metal);
+for(const z of [-.27,.27]){
+ rod([.5,1.13,z],[.43,1.13,z],.035,tyre);
+ rod([.49,1.14,z],[.5,1.36,z*1.25],.012,metal);
+ oval(.5,1.37,z*1.25,.045,.045,.065,engineMat);
+ oval(.65,.91,z,.035,.025,.035,new THREE.MeshStandardMaterial({color:0xe7a53b}));
+}
+const headlight=part(new THREE.CylinderGeometry(.105,.1,.12,20),metal,.59,1.0,0);headlight.rotation.z=Math.PI/2;
+const lens=part(new THREE.CircleGeometry(.086,20),lamp,.655,1,0);lens.rotation.y=Math.PI/2;
+part(new THREE.BoxGeometry(.05,.06,.18),redLamp,-.88,.89,0);
+part(new THREE.BoxGeometry(.025,.12,.19),white,-.88,.74,0);
+// Rear delivery box with lid, latch and reflective strip.
+part(new THREE.BoxGeometry(.45,.37,.43),paint,-.7,1.14,0);
+part(new THREE.BoxGeometry(.47,.035,.45),engineMat,-.7,1.34,0);
+part(new THREE.BoxGeometry(.018,.04,.34),white,-.932,1.16,0);
+part(new THREE.BoxGeometry(.018,.07,.055),metal,-.934,1.27,0);
 const seated=new THREE.Group();bike.add(seated);
-const helmet=new THREE.Mesh(new THREE.SphereGeometry(.18,12,10),blue);helmet.position.set(.1,1.65,0);seated.add(helmet);
-const torso=new THREE.Mesh(new THREE.CapsuleGeometry(.14,.32,3,8),blue);torso.position.set(.04,1.27,0);torso.rotation.z=-.2;seated.add(torso);
-for(const z of [-.19,.19]){const leg=new THREE.Mesh(new THREE.CapsuleGeometry(.055,.4,3,6),tyre);leg.position.set(.25,.91,z);leg.rotation.z=.6;seated.add(leg);}
+oval(-.13,1.26,0,.15,.28,.145,blue,seated).rotation.z=-.23;
+oval(-.03,1.64,0,.16,.18,.15,tyre,seated);
+oval(.083,1.66,0,.075,.075,.139,metal,seated); // helmet visor faces travel
+for(const z of [-.14,.14]){
+ rod([-.15,1.04,z],[.16,.78,z*1.4],.073,tyre,seated);
+ rod([.16,.78,z*1.4],[.0,.51,z*1.5],.055,tyre,seated);
+ oval(.055,.49,z*1.5,.12,.05,.06,engineMat,seated);
+ rod([-.09,1.42,z],[.18,1.2,z*1.5],.051,blue,seated);
+ rod([.18,1.2,z*1.5],[.46,1.14,z*1.75],.042,blue,seated);
+ oval(.46,1.14,z*1.75,.055,.045,.045,tyre,seated);
+}
 bike.scale.setScalar(1.35);
 // Human-scale rider marker and route through entrance, elevator, corridor.
 const pts=[new THREE.Vector3(0,.55,11),new THREE.Vector3(0,.85,4),new THREE.Vector3(0,1,-1.4),new THREE.Vector3(0,22.3,-1.4),new THREE.Vector3(0,22.3,1),new THREE.Vector3(4.6,22.3,1),new THREE.Vector3(4.6,22.3,.1)];

@@ -1,6 +1,6 @@
-import {icon} from './icons.js';
+import {icon} from './icons.js?v=7693e40a6023';
 import * as THREE from 'three';
-import {surface,qualityControl,createRenderer,graphicsFailure} from './render-quality.js';
+import {surface,qualityControl,createRenderer,graphicsFailure} from './render-quality.js?v=7693e40a6023';
 const host=document.querySelector('#walk-scene');
 try {
  const renderer=createRenderer();renderer.setPixelRatio(1);renderer.setClearColor(0xe9eef4);renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;host.appendChild(renderer.domElement);const qualityResize=qualityControl(renderer,host,"Walkthrough");renderer.shadowMap.enabled=false;renderer.shadowMap.type=THREE.PCFSoftShadowMap;

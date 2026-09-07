@@ -29,3 +29,6 @@ h1{font-size:clamp(50px,5.05vw,73px);letter-spacing:-3.8px;line-height:1.06}.her
 .route-control{position:absolute;top:80px;right:20px;left:auto;bottom:auto;width:205px;z-index:3;pointer-events:none}.delivery-timeline{margin:0;padding:0;border:0;background:transparent}.delivery-timeline ol{display:flex;flex-direction:column;gap:7px;margin:0}.delivery-timeline li{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid #dce5ef!important;border-radius:8px;padding:11px 12px;background:#fffffff2;box-shadow:0 3px 12px #304d7010;font-size:11px}.delivery-timeline li[hidden]{display:none}.delivery-timeline time{margin:0;white-space:nowrap;font-size:10px}.delivery-timeline li.current{border-color:#9eb5e9!important}@media(max-width:600px){.route-control{top:72px;right:12px;width:170px}.delivery-timeline li{padding:8px;font-size:10px;gap:5px}.delivery-timeline time{font-size:9px}}
 
 .checkpoint-check{width:18px;height:18px;flex-shrink:0}.delivery-timeline li>span{flex:1}.delivery-timeline li{gap:7px}
+
+/* Keep the building unobstructed on phone screens. */
+@media(max-width:600px){.model-wrap .route-control{display:none}}
