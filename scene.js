@@ -1,6 +1,6 @@
-import {icon} from './icons.js?v=e0209c5a7443';
+import {icon} from './icons.js?v=65d3a30c09ca';
 import * as THREE from 'three';
-import {surface,qualityControl,createRenderer,graphicsFailure} from './render-quality.js?v=e0209c5a7443';
+import {surface,qualityControl,createRenderer,graphicsFailure} from './render-quality.js?v=65d3a30c09ca';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 const host=document.querySelector('#scene');
 try {
@@ -152,17 +152,21 @@ const reduce=matchMedia('(prefers-reduced-motion: reduce)');
 let cameraTouched=false,arrivalCameraTime=0;
 const initialAzimuth=Math.atan2(camera.position.x-controls.target.x,camera.position.z-controls.target.z);
 const cameraRadius=Math.hypot(camera.position.x-controls.target.x,camera.position.z-controls.target.z);
+const initialCameraHeight=camera.position.y-controls.target.y;
+// Finish almost level with the facade, matching the low front view.
+const finalCameraHeight=cameraRadius/Math.tan(controls.maxPolarAngle);
 function stopArrivalCamera(){cameraTouched=true;}
 host.addEventListener('pointerdown',stopArrivalCamera,{passive:true,capture:true});
 host.addEventListener('touchstart',stopArrivalCamera,{passive:true,capture:true});
 host.addEventListener('wheel',stopArrivalCamera,{passive:true,capture:true});
 controls.addEventListener('start',stopArrivalCamera);
 function updateArrivalCamera(dt){
- if(cameraTouched||reduce.matches||arrivalCameraTime>=4)return;
- arrivalCameraTime=Math.min(4,arrivalCameraTime+dt);
+ if(cameraTouched||arrivalCameraTime>=4)return;
+ arrivalCameraTime=reduce.matches?4:Math.min(4,arrivalCameraTime+dt);
  const fraction=arrivalCameraTime/4;
  const eased=fraction*fraction*(3-2*fraction);
  const angle=initialAzimuth*(1-eased);
+ camera.position.y=controls.target.y+initialCameraHeight+(finalCameraHeight-initialCameraHeight)*eased;
  camera.position.x=controls.target.x+Math.sin(angle)*cameraRadius;
  camera.position.z=controls.target.z+Math.cos(angle)*cameraRadius;
 }

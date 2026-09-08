@@ -44,3 +44,19 @@ h1{font-size:clamp(50px,5.05vw,73px);letter-spacing:-3.8px;line-height:1.06}.her
 
 /* A still delivery overview; interaction is only on request. */
 .dw-v3 .dw-map-route{animation:none}.dw-v3 .dw-map-svg,.dw-v3 .dw-marker{transition:none}
+
+/* Main calls to action: a shared shape with a distinct primary emphasis. */
+.hero .actions{gap:18px;flex-wrap:wrap}
+.hero .actions>.primary,header>.nav-contact{display:inline-flex;align-items:center;justify-content:center;font-weight:600;letter-spacing:-.15px;white-space:nowrap;border-radius:10px;transition:background .18s,box-shadow .18s,transform .18s}
+.hero .actions>.primary{min-height:58px;padding:10px 12px 10px 22px;gap:22px;font-size:15px;background:#315cc6;border:1px solid #2b52b3;box-shadow:0 2px 3px #172f6414,0 7px 16px #315cc61a,inset 0 1px #ffffff26}
+.hero .actions>.primary>span{width:34px;height:34px;display:grid;place-items:center;flex-shrink:0;background:#ffffff19;border:1px solid #ffffff24;border-radius:7px}
+.hero .actions>.primary .ui-icon{width:19px;height:19px;stroke-width:2}
+.hero .actions>.primary:hover{background:#244eaf;box-shadow:0 4px 8px #172f6418,0 10px 22px #315cc626;transform:translateY(-1px)}
+header>.nav-contact{min-height:46px;padding:10px 15px 10px 19px;gap:17px;font-size:14px;color:#244da8;background:#f2f6ff;border:1px solid #cbd8f3;box-shadow:0 1px 2px #203d7708}
+header>.nav-contact>span{margin:0;width:24px;height:24px;display:grid;place-items:center}
+header>.nav-contact .ui-icon{width:18px;height:18px;stroke-width:2}
+header>.nav-contact:hover{background:#e5edff;border-color:#9cb5e8;transform:translateY(-1px)}
+.hero .actions>.primary:active,header>.nav-contact:active{transform:translateY(1px);box-shadow:none}
+.hero .actions>.primary:focus-visible,header>.nav-contact:focus-visible{outline:3px solid #7194ed;outline-offset:4px}
+@media(max-width:480px){.hero .actions>.primary{min-height:56px;font-size:14px;padding-left:18px;gap:16px}header>.nav-contact{min-height:44px;padding:8px 12px;gap:10px}}
+@media(prefers-reduced-motion:reduce){.hero .actions>.primary,header>.nav-contact{transition:none}.hero .actions>.primary:hover,header>.nav-contact:hover{transform:none}}

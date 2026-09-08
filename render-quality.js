@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {renderRatio} from './graphics-budget.js?v=e0209c5a7443';
+import {renderRatio} from './graphics-budget.js?v=65d3a30c09ca';
 // Local procedural materials: no remote image requests or borrowed artwork.
 export function surface(kind,renderer){
  const c=document.createElement('canvas');c.width=c.height=512;const ctx=c.getContext('2d');ctx.scale(.5,.5);let seed=1937;const random=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646};
